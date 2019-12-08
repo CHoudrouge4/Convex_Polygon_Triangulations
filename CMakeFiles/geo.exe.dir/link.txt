@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wextra -g -O3   CMakeFiles/geo.exe.dir/src/main.cc.o  -o geo.exe /usr/lib/x86_64-linux-gnu/libGLEW.so -lGL -lsfml-graphics -lsfml-window -lsfml-system 
