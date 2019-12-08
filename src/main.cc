@@ -11,7 +11,6 @@
 #include <map>
 #include <utility>
 
-
 bool is_intersecting(std::pair<int, int> &p, std::pair<int, int> &q) {
   if (p == q) return true;
   if (p.first == q.first && p.second != q.second) return false;
@@ -19,7 +18,7 @@ bool is_intersecting(std::pair<int, int> &p, std::pair<int, int> &q) {
 }
 
 bool exists(std::pair<int, int> &p, std::vector<std::pair<int, int>> &diags) {
-  for (int i = 0; i <  diags.size(); ++i) {
+  for (size_t i = 0; i <  diags.size(); ++i) {
     if (diags[i] == p) return true;
   }
   return false;
@@ -28,11 +27,9 @@ bool exists(std::pair<int, int> &p, std::vector<std::pair<int, int>> &diags) {
 bool is_compatible(std::pair<int, int> &p, std::vector<std::pair<int, int>> &diags) {
   if (diags.size() == 0) return true;
 
-  for (int i = 0; i < diags.size(); ++i) {
-  //  std::cout << diags[i].first << ' ' << diags[i].second << " ? " <<  p.first << ' ' << p.second << '\n';
+  for (size_t i = 0; i < diags.size(); ++i) {
     if (is_intersecting(diags[i], p)) return false;
   }
-
   return true;
 }
 
@@ -42,7 +39,7 @@ void generateDiag(int i, int n, std::vector<std::pair<int, int>> & diags, std::v
     return;
   }
 
-  for (int j = i; i < diags.size(); ++i) {
+  for (size_t j = i; i < diags.size(); ++i) {
     if (is_compatible(diags[i], tri)) {
       tri.push_back(diags[i]);
       generateDiag(i + 1, n, diags, tri, triangles);
@@ -57,13 +54,11 @@ std::vector<std::pair<int, int>> internal(int n) {
   for (int i = 0; i < n; i++) {
     for (int j = i + 2; j < n; j++) {
       if ((j + 1) % n == i) continue;
-      std::cout << i << ' ' << j << '\n';
       diags.push_back({i, j});
     }
   }
   return diags;
 }
-
 
 // Shader sources
 const GLchar* vertexSource = R"glsl(
@@ -85,38 +80,6 @@ const GLchar* fragmentSource = R"glsl(
     }
 )glsl";
 
-const char* geometryShaderSrc = R"glsl(
-    #version 150 core
-
-    layout(points) in;
-    layout(line_strip, max_vertices = 64) out;
-
-    in float vSides[];
-
-    in vec3 vColor[]; // Output from vertex shader for each vertex
-
-    out vec3 fColor; // Output to fragment shader
-
-    const float PI = 3.1415926;
-    const float scale = 2;
-
-    void main()
-    {
-
-      fColor = vColor[0];
-
-      for (int i = 0; i <= vSides[0]; i++) {
-        float ang = PI * 2.0 / vSides[0] * i;
-
-        vec4 offset = vec4((cos(ang) * 0.3)/scale, - (sin(ang) * 0.4)/scale, 0.0, 0.0);
-        gl_Position = gl_in[0].gl_Position + offset;
-        EmitVertex();
-      }
-
-      EndPrimitive();
-    }
-)glsl";
-
 GLuint createShader(GLenum type, const GLchar* src) {
   GLuint shader = glCreateShader(type);
   glShaderSource(shader, 1, &src, nullptr);
@@ -129,29 +92,24 @@ GLuint createShader(GLenum type, const GLchar* src) {
 
 GLuint createProgram(std::vector<GLuint> &shaders) {
   GLuint shaderProgram = glCreateProgram();
-  for(size_t i = 0; i < shaders.size(); ++i)
-    glAttachShader(shaderProgram, shaders[i]);
-
+  for(size_t i = 0; i < shaders.size(); ++i) glAttachShader(shaderProgram, shaders[i]);
   glBindFragDataLocation(shaderProgram, 0, "outColor");
   glLinkProgram(shaderProgram);
   glUseProgram(shaderProgram);
-
   return shaderProgram;
 }
 
 const float PI = 3.1415926;
-
 void genereatePolygons(std::vector<GLfloat> &polygons, int n, float x, float y) {
   int scale = 6;
   for (int i = 0; i < n; i++) {
     float ang = PI * 2.0 / n * i;
-    float offset_x = (cos(ang) * 0.3);
+    float offset_x =   (cos(ang) * 0.3);
     float offset_y = - (sin(ang) * 0.4);
     x += offset_x/scale;
     y += offset_y/scale;
     polygons.push_back(x);
     polygons.push_back(y);
-    std::cout << x << ' ' << y << std::endl;
   }
 }
 
@@ -161,12 +119,11 @@ void generateTriangulatedPolygons(int start, int n, std::vector<GLuint> &element
     elements.push_back((i + 1) % n + start);
   }
 
-  for (int i = 0; i < diags.size(); ++i) {
+  for (size_t i = 0; i < diags.size(); ++i) {
     elements.push_back(start + diags[i].first);
     elements.push_back(start + diags[i].second);
   }
 }
-
 
 void display(int n,  std::vector<std::vector<std::pair<int, int>>> & triangles) {
 
@@ -194,7 +151,7 @@ void display(int n,  std::vector<std::vector<std::pair<int, int>>> & triangles) 
 
   int j = 0;
   int l = 0;
-  for (int i = 0; i < triangles.size(); i++) {
+  for (size_t i = 0; i < triangles.size(); i++) {
     if(-0.9f + l * 0.3 > 1)  {
       j++;
       l = 0;
@@ -203,22 +160,16 @@ void display(int n,  std::vector<std::vector<std::pair<int, int>>> & triangles) 
     l++;
   }
 
-
   GLfloat * points = polygons.data();
-
-
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glBufferData(GL_ARRAY_BUFFER, triangles.size() * 2 * n * sizeof(float), points, GL_STATIC_DRAW);
-
 
   GLuint ebo;
   glGenBuffers(1, &ebo);
 
-
   std::vector<GLuint> elements;
-
   int k = 0;
-  for (int i = 0; i < triangles.size(); ++i) {
+  for (size_t i = 0; i < triangles.size(); ++i) {
     generateTriangulatedPolygons(k, n, elements, triangles[i]);
     k += n;
   }
@@ -228,15 +179,11 @@ void display(int n,  std::vector<std::vector<std::pair<int, int>>> & triangles) 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, elements.size() * sizeof(GLuint), elm, GL_STATIC_DRAW);
 
-
   // Create and compile the vertex shader
   GLuint vertexShader = createShader(GL_VERTEX_SHADER, vertexSource);
 
   // Create and compile the fragment shader
   GLuint fragmentShader = createShader(GL_FRAGMENT_SHADER, fragmentSource);
-
-  // create and compile the geometric shader
-  // GLuint geometryShder = createShader(GL_GEOMETRY_SHADER, geometryShaderSrc);
 
   std::vector<GLuint> shaders = {vertexShader, fragmentShader};
   // Link the vertex and fragment shader into a shader program
@@ -253,8 +200,7 @@ void display(int n,  std::vector<std::vector<std::pair<int, int>>> & triangles) 
   while (running) {
       sf::Event windowEvent;
       while (window.pollEvent(windowEvent)) {
-          switch (windowEvent.type)
-          {
+          switch (windowEvent.type) {
           case sf::Event::Closed:
               running = false;
               break;
@@ -273,16 +219,13 @@ void display(int n,  std::vector<std::vector<std::pair<int, int>>> & triangles) 
   }
 
   glDeleteProgram(shaderProgram);
-//    glDeleteShader(geometryShder);
   glDeleteShader(fragmentShader);
   glDeleteShader(vertexShader);
-
   glDeleteBuffers(1, &vbo);
-
+  glDeleteBuffers(1, &ebo);
   glDeleteVertexArrays(1, &vao);
   window.close();
 }
-
 
 int main() {
   int n; std::cin >> n;
@@ -291,6 +234,5 @@ int main() {
   auto v = internal(n);
   generateDiag(0,  n, v, diags, triangles);
   display(n, triangles);
-
   return 0;
 }
