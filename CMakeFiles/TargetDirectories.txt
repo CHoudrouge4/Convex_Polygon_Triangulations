@@ -1,3 +1,0 @@
-/home/hussein/projects/Convex_Polygon_Triangulations/CMakeFiles/rebuild_cache.dir
-/home/hussein/projects/Convex_Polygon_Triangulations/CMakeFiles/geo.exe.dir
-/home/hussein/projects/Convex_Polygon_Triangulations/CMakeFiles/edit_cache.dir
