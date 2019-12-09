@@ -29,54 +29,6 @@ const GLchar* fragmentSource = R"glsl(
     }
 )glsl";
 
-// Shader sources
-void display_graph() {
-  // Vertex shader
-  const char* vertexShaderSrc = R"glsl(
-    #version 150 core
-    in vec2 pos;
-
-    void main()
-    {
-        gl_Position = vec4(pos, 0.0, 1.0);
-    }
-  )glsl";
-
-  // Fragment shader
-  const char* fragmentShaderSrc = R"glsl(
-    #version 150 core
-    out vec4 outColor;
-
-    void main()
-    {
-        outColor = vec4(1.0, 0.0, 0.0, 1.0);
-    }
-  )glsl";
-
-  GLuint vertexShader = createShader(GL_VERTEX_SHADER, vertexShaderSrc);
-  GLuint fragmentShader = createShader(GL_FRAGMENT_SHADER, fragmentShaderSrc);
-
-  GLuint shaderProgram = glCreateProgram();
-  glAttachShader(shaderProgram, vertexShader);
-  glAttachShader(shaderProgram, fragmentShader);
-  glLinkProgram(shaderProgram);
-  glUseProgram(shaderProgram);
-
-  GLuint vbo;
-  glGenBuffers(1, &vbo);
-
-  float points[] = {
-      -0.45f,  0.45f,
-       0.45f,  0.45f,
-       0.45f, -0.45f,
-      -0.45f, -0.45f,
-  };
-
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
-
-}
-
 void display(int n,  std::vector<std::vector<std::pair<int, int>>> & triangles, std::vector<std::pair<int, int>> &diags) {
 
   sf::ContextSettings settings;
@@ -142,10 +94,6 @@ void display(int n,  std::vector<std::vector<std::pair<int, int>>> & triangles, 
   glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 
   bool running = true;
-  //auto t_start = std::chrono::high_resolution_clock::now();
-
-
-
   while (running) {
       sf::Event windowEvent;
       while (window.pollEvent(windowEvent)) {
@@ -173,6 +121,7 @@ void display(int n,  std::vector<std::vector<std::pair<int, int>>> & triangles, 
   glDeleteBuffers(1, &ebo);
   glDeleteVertexArrays(1, &vao);
   window.close();
+
 }
 
 int main() {
