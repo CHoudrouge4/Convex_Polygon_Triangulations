@@ -123,6 +123,33 @@ geo.exe/fast:
 	$(MAKE) -f CMakeFiles/geo.exe.dir/build.make CMakeFiles/geo.exe.dir/build
 .PHONY : geo.exe/fast
 
+src/geometry.o: src/geometry.cc.o
+
+.PHONY : src/geometry.o
+
+# target to build an object file
+src/geometry.cc.o:
+	$(MAKE) -f CMakeFiles/geo.exe.dir/build.make CMakeFiles/geo.exe.dir/src/geometry.cc.o
+.PHONY : src/geometry.cc.o
+
+src/geometry.i: src/geometry.cc.i
+
+.PHONY : src/geometry.i
+
+# target to preprocess a source file
+src/geometry.cc.i:
+	$(MAKE) -f CMakeFiles/geo.exe.dir/build.make CMakeFiles/geo.exe.dir/src/geometry.cc.i
+.PHONY : src/geometry.cc.i
+
+src/geometry.s: src/geometry.cc.s
+
+.PHONY : src/geometry.s
+
+# target to generate assembly for a file
+src/geometry.cc.s:
+	$(MAKE) -f CMakeFiles/geo.exe.dir/build.make CMakeFiles/geo.exe.dir/src/geometry.cc.s
+.PHONY : src/geometry.cc.s
+
 src/main.o: src/main.cc.o
 
 .PHONY : src/main.o
@@ -150,6 +177,33 @@ src/main.cc.s:
 	$(MAKE) -f CMakeFiles/geo.exe.dir/build.make CMakeFiles/geo.exe.dir/src/main.cc.s
 .PHONY : src/main.cc.s
 
+src/shader_tools.o: src/shader_tools.cc.o
+
+.PHONY : src/shader_tools.o
+
+# target to build an object file
+src/shader_tools.cc.o:
+	$(MAKE) -f CMakeFiles/geo.exe.dir/build.make CMakeFiles/geo.exe.dir/src/shader_tools.cc.o
+.PHONY : src/shader_tools.cc.o
+
+src/shader_tools.i: src/shader_tools.cc.i
+
+.PHONY : src/shader_tools.i
+
+# target to preprocess a source file
+src/shader_tools.cc.i:
+	$(MAKE) -f CMakeFiles/geo.exe.dir/build.make CMakeFiles/geo.exe.dir/src/shader_tools.cc.i
+.PHONY : src/shader_tools.cc.i
+
+src/shader_tools.s: src/shader_tools.cc.s
+
+.PHONY : src/shader_tools.s
+
+# target to generate assembly for a file
+src/shader_tools.cc.s:
+	$(MAKE) -f CMakeFiles/geo.exe.dir/build.make CMakeFiles/geo.exe.dir/src/shader_tools.cc.s
+.PHONY : src/shader_tools.cc.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -159,9 +213,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... geo.exe"
 	@echo "... edit_cache"
+	@echo "... src/geometry.o"
+	@echo "... src/geometry.i"
+	@echo "... src/geometry.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/shader_tools.o"
+	@echo "... src/shader_tools.i"
+	@echo "... src/shader_tools.s"
 .PHONY : help
 
 
