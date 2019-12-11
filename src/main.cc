@@ -36,7 +36,7 @@ void display(int n,  std::vector<std::vector<std::pair<int, int>>> & triangles, 
   settings.stencilBits = 8;
   settings.majorVersion = 3;
   settings.minorVersion = 2;
-  sf::Window window(sf::VideoMode(900, 900, 32), "Polygons", sf::Style::Fullscreen, settings);
+  sf::Window window(sf::VideoMode(900, 900, 32), "Polygons", sf::Style::Close | sf::Style::Resize, settings);
 
   // Initialize GLEW
   glewExperimental = GL_TRUE;

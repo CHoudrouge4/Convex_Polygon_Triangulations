@@ -71,7 +71,7 @@ void genereatePolygons(std::vector<GLfloat> &polygons, int n, size_t nb, float s
   int j = 0;
   int l = 0;
   for (size_t i = 0; i < nb; i++) {
-    if(-0.9f + l * 0.3 > 0)  {
+    if(-0.9f + l * 0.3 > 0.9)  {
       j++;
       l = 0;
     }
