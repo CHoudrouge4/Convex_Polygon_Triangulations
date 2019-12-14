@@ -25,17 +25,20 @@ const GLchar* fragmentSource = R"glsl(
     #version 150 core
     out vec4 outColor;
     void main() {
-        outColor = vec4(1.0, 1.0, 1.0, 1.0);
+        outColor = vec4(0.0, 0.0, 0.0, 1.0);
     }
 )glsl";
 
 void display(int n,  std::vector<std::vector<std::pair<int, int>>> & triangles, std::vector<std::pair<int, int>> &diags) {
 
   sf::ContextSettings settings;
-  settings.depthBits = 24;
-  settings.stencilBits = 8;
+  settings.depthBits = 32;
+  settings.stencilBits = 16;
   settings.majorVersion = 3;
   settings.minorVersion = 2;
+
+  settings.antialiasingLevel = 16;
+
   sf::Window window(sf::VideoMode(900, 900, 32), "Polygons", sf::Style::Close | sf::Style::Resize, settings);
 
   // Initialize GLEW
@@ -105,7 +108,7 @@ void display(int n,  std::vector<std::vector<std::pair<int, int>>> & triangles, 
       }
 
       // Clear the screen to black
-      glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+      glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT);
 
       glDrawElements(GL_LINES, elements.size(), GL_UNSIGNED_INT, 0);
